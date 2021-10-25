@@ -1,0 +1,2 @@
+class UserSessionTokenListsController < ApplicationController
+end
