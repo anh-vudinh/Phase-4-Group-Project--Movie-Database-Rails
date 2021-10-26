@@ -4,7 +4,7 @@ class UsersController < ApplicationController
         if User.find_by(username: params[:username])
             render json: {errors: "user_exist", status: 422}, status: :unprocessable_entity
         else
-            newUser = User.create(username: params[:username], useremail: nil, avatar_path: nil, userpwd: params[:password], login_status: true, account_active: true, is_admin: false)
+            newUser = User.create(username: params[:username], useremail: nil, avatar_path: nil, userpwd: params[:password], password: params[:password], login_status: true, account_active: true, is_admin: false)
             newToken = createNewSessionToken
             UserSessionTokenList.create( user_id: newUser.id, session_token: newToken, session_duration: 1, exp_end:DateTime.now+1)
             render json: {token: newToken}, status: :ok
@@ -13,8 +13,8 @@ class UsersController < ApplicationController
 
     def login
         searchUser = User.find_by(username: params[:username])
-        if searchUser != nil 
-            if searchUser.userpwd == params[:password]                     #allow newUser login
+        if searchUser != nil
+            if searchUser&.authenticate(params[:password])                    #allow newUser login
                 possibleToken = searchUser.user_session_token_lists.find {|ustl| ustl.exp_end >= DateTime.now}
                 if possibleToken != nil                                    #user has no expired usable session token
                     token = possibleToken.session_token

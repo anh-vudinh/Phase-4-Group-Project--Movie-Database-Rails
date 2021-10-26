@@ -13,4 +13,6 @@ class User < ApplicationRecord
 
     validates :username, uniqueness: true
     validates :useremail, uniqueness: { allow_nil: true }
+
+    has_secure_password
 end
