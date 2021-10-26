@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
   
-  resources :user_session_token_lists
-  resources :watchlist_link_cards
+  #resources :user_session_token_lists
+  #resources :watchlist_link_cards
   resources :watchlist_cards
-  resources :review_movies
-  resources :review_responses
-  resources :user_responses
-  resources :user_reviews
-  resources :movies
+  #resources :review_movies
+  #resources :review_responses
+  #resources :user_responses
+  #resources :user_reviews
+  #resources :movies
   resources :responses
   resources :reviews
 

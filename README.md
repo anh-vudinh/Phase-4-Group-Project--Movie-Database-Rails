@@ -1,3 +1,13 @@
+# Day 1:
+- made rails backend MVC
+- adjusted some column names
+- reworked front end to match and accept rails return output and the new column names
+___
+
+# Day 2: (setup cookies, auth, bcrypt, if extra time work on building Admin/User Control Panel)
+
+___
+
 # Project Template: React/Rails API
 
 ## Description

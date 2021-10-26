@@ -10,4 +10,7 @@ class User < ApplicationRecord
     has_many :movies, through: :reviews_movies
     has_many :user_responses
     has_many :responses, through: :user_responses
+
+    validates :username, uniqueness: true
+    validates :useremail, uniqueness: { allow_nil: true }
 end

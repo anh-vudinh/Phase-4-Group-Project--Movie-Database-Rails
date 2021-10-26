@@ -12,7 +12,6 @@ class WatchlistCardsController < ApplicationController
         user = UserSessionTokenList.all.find_by(session_token: params[:token]).user     #locate user based off token recieved
         watchlist_card = user.watchlist_cards.find_by(movie_id: params[:movie_id])
         watchlist_card.watchlist_link_cards.first.destroy                               #removes the link between WL and WLC
-        #watchlist_card.destroy     i want to keep the cards 
         render json: watchlist_card
     end
 
