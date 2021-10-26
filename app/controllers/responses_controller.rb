@@ -1,18 +1,18 @@
 class ResponsesController < ApplicationController
    
-    def index 
-     review_responses = ReviewResponse.all.filter{ |rr| rr.review_id == params[:review_id].to_i}
-     send = review_responses.map{|e| e.response}
-     render json: send, status: :ok
+    def show 
+        review_responses = ReviewResponse.all.filter{ |rr| rr.review_id == params[:id].to_i}
+        send = review_responses.map{|e| e.response}
+        render json: send, status: :ok
     end
    
-    def create 
-     filteredComment = filterScriptFromComment(params[:comment])
-     user = UserSessionTokenList.all.find_by(session_token: params[:token]).user
-     reviewID = createReviewResponseIfNone(params[:review_id], params[:movie_id])
-     newResponse = Response.create(author: user.username, username: user.username, avatar_path: user.userprofile, content: filteredComment)
-     ReviewResponse.create(response_id: newResponse.id, review_id: reviewID)
-     render json: newResponse, status: :created
+    def create
+        filteredComment = filterScriptFromComment(params[:comment])
+        user = UserSessionTokenList.all.find_by(session_token: params[:token]).user
+        reviewID = createReviewResponseIfNone(params[:review_id], params[:movie_id])
+        newResponse = Response.create(author: user.username, username: user.username, avatar_path: user.avatar_path, content: filteredComment)
+        ReviewResponse.create(response_id: newResponse.id, review_id: reviewID)
+        render json: newResponse, status: :created
     end
         
     private

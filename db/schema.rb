@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_25_194006) do
+ActiveRecord::Schema.define(version: 2021_10_26_032125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "movies", force: :cascade do |t|
+    t.integer "movie_id"
     t.string "movie_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -23,7 +24,7 @@ ActiveRecord::Schema.define(version: 2021_10_25_194006) do
 
   create_table "responses", force: :cascade do |t|
     t.string "author"
-    t.string "context"
+    t.string "content"
     t.string "username"
     t.string "avatar_path"
     t.datetime "created_at", precision: 6, null: false
@@ -31,8 +32,8 @@ ActiveRecord::Schema.define(version: 2021_10_25_194006) do
   end
 
   create_table "review_movies", force: :cascade do |t|
-    t.bigint "review_id", null: false
-    t.bigint "movie_id", null: false
+    t.bigint "review_id"
+    t.bigint "movie_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["movie_id"], name: "index_review_movies_on_movie_id"
@@ -40,8 +41,8 @@ ActiveRecord::Schema.define(version: 2021_10_25_194006) do
   end
 
   create_table "review_responses", force: :cascade do |t|
-    t.bigint "review_id", null: false
-    t.bigint "response_id", null: false
+    t.bigint "review_id"
+    t.bigint "response_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["response_id"], name: "index_review_responses_on_response_id"
@@ -89,7 +90,9 @@ ActiveRecord::Schema.define(version: 2021_10_25_194006) do
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "useremail"
+    t.string "userpwd"
     t.string "password_digest"
+    t.boolean "login_status"
     t.boolean "is_admin"
     t.boolean "account_active"
     t.string "avatar_path"
@@ -123,10 +126,6 @@ ActiveRecord::Schema.define(version: 2021_10_25_194006) do
     t.index ["user_id"], name: "index_watchlists_on_user_id"
   end
 
-  add_foreign_key "review_movies", "movies"
-  add_foreign_key "review_movies", "reviews"
-  add_foreign_key "review_responses", "responses"
-  add_foreign_key "review_responses", "reviews"
   add_foreign_key "user_responses", "responses"
   add_foreign_key "user_responses", "users"
   add_foreign_key "user_reviews", "reviews"

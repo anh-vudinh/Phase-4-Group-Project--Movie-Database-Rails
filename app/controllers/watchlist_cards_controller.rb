@@ -1,4 +1,5 @@
 class WatchlistCardsController < ApplicationController
+    
     def create 
         user = UserSessionTokenList.all.find_by(session_token: params[:token]).user     #locate user based off token recieved
         watchlist = createOrFindWL(user.id)                                                       
@@ -7,7 +8,7 @@ class WatchlistCardsController < ApplicationController
         render json: newWatchListCard                                                      #send the new WLC back to front end
     end
 
-    patch '/watchlistcards/deleteWLC' do
+    def deleteWLC
         user = UserSessionTokenList.all.find_by(session_token: params[:token]).user     #locate user based off token recieved
         watchlist_card = user.watchlist_cards.find_by(movie_id: params[:movie_id])
         watchlist_card.watchlist_link_cards.first.destroy                               #removes the link between WL and WLC

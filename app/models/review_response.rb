@@ -1,4 +1,4 @@
 class ReviewResponse < ApplicationRecord
-  belongs_to :review
-  belongs_to :response
+  belongs_to :review, optional: true
+  belongs_to :response, optional: true
 end

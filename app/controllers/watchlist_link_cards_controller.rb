@@ -1,2 +1,0 @@
-class WatchlistLinkCardsController < ApplicationController
-end
