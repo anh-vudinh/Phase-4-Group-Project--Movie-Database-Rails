@@ -24,9 +24,9 @@ Rails.application.routes.draw do
       post 'retrieveWL'
     end
   end
-
+  
   resources :users do
-    collection do
+    member do
       post 'login'
     end
   end
