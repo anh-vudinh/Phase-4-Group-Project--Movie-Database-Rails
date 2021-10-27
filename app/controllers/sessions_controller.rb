@@ -43,7 +43,7 @@ class SessionsController < ApplicationController
     # end
 
     def createNewSessionToken
-        possibleToken = Faker::Alphanumeric.alphanumeric(number: 20, min_alpha: 3)
+        possibleToken = Faker::Alphanumeric.alphanumeric(number: 30, min_alpha: 3)
         if UserSessionTokenList.find_by(session_token: possibleToken) == nil
             possibleToken
         else
