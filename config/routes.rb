@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :cpanels
   #resources :sessions
   #resources :user_session_token_lists
   #resources :watchlist_link_cards
@@ -23,6 +24,12 @@ Rails.application.routes.draw do
     collection do
       post 'retrieveWL'
     end
+    collection do
+      post 'cpWL'
+    end
+    collection do
+      post 'cpWLmovies'
+    end
   end
   
   resources :sessions do
@@ -33,6 +40,7 @@ Rails.application.routes.draw do
       post 'token_login'
     end
   end
+  
 
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!

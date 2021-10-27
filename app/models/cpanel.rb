@@ -1,0 +1,2 @@
+class Cpanel < ApplicationRecord
+end
