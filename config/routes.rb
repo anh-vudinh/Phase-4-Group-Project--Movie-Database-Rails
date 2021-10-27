@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   
-  resources :sessions
   #resources :sessions
   #resources :user_session_token_lists
   #resources :watchlist_link_cards
@@ -12,6 +11,7 @@ Rails.application.routes.draw do
   #resources :movies
   resources :responses
   resources :reviews
+  resources :users
 
   resources :watchlist_cards do
     collection do
@@ -25,13 +25,15 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :users do
-    member do
+  resources :sessions do
+    collection do
       post 'login'
+    end
+    collection do
+      post 'token_login'
     end
   end
 
-  post "/cookie_load", to: "sessions#load"
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }

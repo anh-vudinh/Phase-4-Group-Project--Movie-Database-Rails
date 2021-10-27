@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
-    
+    skip_before_action :confirm_authentication, only: [:show, :create]
+
     def show
         possibleMovie = Movie.find_by(movie_id: params[:id])
         if possibleMovie 
@@ -19,12 +20,7 @@ class ReviewsController < ApplicationController
         render json: newReview, status: :created
     end
 
-private 
-    def review_params 
-        params.permit(:comment)
-    end
-    
-
+private
     def createMovieIfNone(params_id, params_m_name)
         possibleMovie = Movie.all.find_by(movie_id: params_id)
         if possibleMovie

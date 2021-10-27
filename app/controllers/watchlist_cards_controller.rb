@@ -1,4 +1,5 @@
 class WatchlistCardsController < ApplicationController
+    skip_before_action :confirm_authentication, only: [:create, :deleteWLC, :createOrFindWL]
     
     def create 
         user = UserSessionTokenList.all.find_by(session_token: params[:token]).user     #locate user based off token recieved

@@ -1,5 +1,6 @@
 class ResponsesController < ApplicationController
-   
+    skip_before_action :confirm_authentication, only: [:show, :create]
+
     def show 
         review_responses = ReviewResponse.all.filter{ |rr| rr.review_id == params[:id].to_i}
         send = review_responses.map{|e| e.response}
