@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 2021_10_27_183310) do
 
   create_table "user_session_token_lists", force: :cascade do |t|
     t.string "session_token"
-    t.time "session_duration"
+    t.integer "session_duration"
     t.datetime "exp_end"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -100,7 +100,6 @@ ActiveRecord::Schema.define(version: 2021_10_27_183310) do
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "useremail"
-    t.string "userpwd"
     t.string "password_digest"
     t.boolean "login_status"
     t.boolean "is_admin"
@@ -130,6 +129,7 @@ ActiveRecord::Schema.define(version: 2021_10_27_183310) do
   end
 
   create_table "watchlists", force: :cascade do |t|
+    t.string "wlname"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

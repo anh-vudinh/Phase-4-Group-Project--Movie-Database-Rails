@@ -21,7 +21,7 @@ class WatchlistCardsController < ApplicationController
         if possibleWL 
             possibleWL                              #if there's no watchlist associated, make one 
         else
-            Watchlist.create(user_id: user_id)                                                   #if there is a current watchlist, store it to pass it's id to create new WL link card
+            Watchlist.create(user_id: user_id, wlname: "first watchlist")                                                   #if there is a current watchlist, store it to pass it's id to create new WL link card
         end                   
     end
 end

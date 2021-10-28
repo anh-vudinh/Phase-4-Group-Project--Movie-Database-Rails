@@ -11,7 +11,8 @@ class SessionsController < ApplicationController
                     render json: {token: token, username: searchUser.username}, status: :ok                    #so return token to front end
                 else
                     newToken = createNewSessionToken                       #user does not have usable token, create new token
-                    UserSessionTokenList.create( user_id: searchUser.id, session_token: newToken, session_duration: 1, exp_start: DateTime.now, exp_end:DateTime.now+1)
+                    set_session_duration = searchUser.user_session_token_lists.last.session_duration ||= 1
+                    UserSessionTokenList.create(user_id: searchUser.id, session_token: newToken, session_duration: set_session_duration, exp_end: DateTime.now+set_session_duration)
                     render json: {token: newToken, username: searchUser.username}, status: :ok                                       #return to front end
                 end 
             else

@@ -2,7 +2,7 @@ class WatchlistsController < ApplicationController
     skip_before_action :confirm_authentication, only: [:create, :destroy, :retrieveWL, :cpWL, :cpWLmovies]
     
     def create
-        newWL = Watchlist.create(user_id: params[:user_id])
+        newWL = Watchlist.create(user_id: params[:user_id], wlname: params[:wlname])
         render json: newWL, status: :created
     end
 
