@@ -16,6 +16,7 @@ class UsersController < ApplicationController
         User.find_by(id:params[:id]).destroy
         render json: {}, status: :accepted
     end
+    
     def createNewSessionToken
         possibleToken = Faker::Alphanumeric.alphanumeric(number: 30, min_alpha: 3)
         if UserSessionTokenList.find_by(session_token: possibleToken) == nil
