@@ -9,12 +9,12 @@ class SessionsController < ApplicationController
                     possibleToken = search_user.user_session_token_lists.find {|ustl| ustl.exp_end >= DateTime.now}
                     if possibleToken != nil                                    #user has no expired usable session token
                         token = possibleToken.session_token
-                        render json: {token: token, username: search_user.username}, status: :ok                    #so return token to front end
+                        render json: {token: token, username: search_user.username, avatar_path: search_user.avatar_path}, status: :ok                    #so return token to front end
                     else
                         newToken = createNewSessionToken                       #user does not have usable token, create new token
                         set_session_duration = search_user.user_session_token_lists.last.session_duration ||= 1
                         UserSessionTokenList.create(user_id: search_user.id, session_token: newToken, session_duration: set_session_duration, exp_end: DateTime.now+set_session_duration)
-                        render json: {token: newToken, username: search_user.username}, status: :ok                                       #return to front end
+                        render json: {token: newToken, username: search_user.username, avatar_path: search_user.avatar_path}, status: :ok                                       #return to front end
                     end 
                 else
                     render json: {errors: "Wrong Password", status: 422}, status: :unprocessable_entity                                         #wrong password
@@ -37,7 +37,7 @@ class SessionsController < ApplicationController
                 if searchToken
                     if searchToken.exp_end >= DateTime.now 
                         #good token, log user in
-                        render json: {token: searchToken.session_token, username: searchToken.user.username}, status: :ok
+                        render json: {token: searchToken.session_token, username: searchToken.user.username, avatar_path: searchToken.user.avatar_path}, status: :ok
                     else
                         #create new token because first one expired
                         render json: {errors: "Login again, session expired", status: 422}, status: :unprocessable_entity

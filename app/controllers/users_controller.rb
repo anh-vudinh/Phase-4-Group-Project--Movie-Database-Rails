@@ -5,10 +5,15 @@ class UsersController < ApplicationController
         if User.find_by(username: params[:username])
             render json: {errors: "User Already Exist", status: 422}, status: :unprocessable_entity
         else
-            newUser = User.create(username: params[:username], useremail: params[:useremail] ||= nil, avatar_path: nil, password: params[:password], login_status: true, account_active: true, is_admin: false)
+            if params[:useremail] == ""
+                new_email = nil
+            else
+                new_email = params[:useremail]
+            end
+            newUser = User.create(username: params[:username], useremail: new_email, avatar_path: nil, password: params[:password], login_status: true, account_active: true, is_admin: false)
             newToken = createNewSessionToken
             UserSessionTokenList.create( user_id: newUser.id, session_token: newToken, session_duration: 1, exp_end:DateTime.now+1)
-            render json: {token: newToken, username: newUser.username}, status: :ok
+            render json: {token: newToken, username: newUser.username, avatar_path: newUser.avatar_path}, status: :ok
         end
     end
 
