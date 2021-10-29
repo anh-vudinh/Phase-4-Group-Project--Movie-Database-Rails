@@ -1,8 +1,8 @@
 class WatchlistsController < ApplicationController
-    skip_before_action :confirm_authentication, only: [:create, :destroy, :retrieveWL, :cpWL, :cpWLmovies, :cpWLMoviesDelete]
+    skip_before_action :confirm_authentication, only: [:create, :destroy, :update, :retrieveWL, :cpWL, :cpWLmovies, :cpWLMoviesDelete]
     
     def create
-        newWL = Watchlist.create(user_id: params[:user_id], wlname: params[:wlname])
+        newWL = Watchlist.create(user_id: params[:user_id], wlname: params[:wlname], is_default: false)
         render json: newWL, status: :created
     end
 
@@ -11,16 +11,24 @@ class WatchlistsController < ApplicationController
         render json: {}, status: :accepted
     end
 
+    def update
+        all_user_watchlist = User.find_by(id: params[:user_id]).watchlists
+        all_user_watchlist.each{|wl| wl.update(is_default: false)}
+        watchlist = Watchlist.find_by(id: params[:id])
+        watchlist.update(wlname: params[:wlname], is_default: params[:is_default])
+        updated_watchlists = User.find_by(id: params[:user_id]).watchlists
+        render json: updated_watchlists, status: :accepted
+    end
+
     def retrieveWL
         watchlist = UserSessionTokenList.all.find_by(session_token: params[:token]).user.watchlist_cards
-        render json: watchlist, status: :ok    #locate user based off token recieved
+        render json: watchlist, status: :ok                                                                     #locate user based off token recieved
     end
 
     def cpWL 
         user=User.find_by(username: params[:username])
         user_watchlist = user.watchlists
         render json: user_watchlist.to_json(except:[:user]), status: :ok
-        
     end 
 
     def cpWLmovies

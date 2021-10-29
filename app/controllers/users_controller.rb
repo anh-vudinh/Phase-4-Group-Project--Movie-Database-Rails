@@ -13,7 +13,7 @@ class UsersController < ApplicationController
             newUser = User.create(username: params[:username], useremail: new_email, avatar_path: nil, password: params[:password], login_status: true, account_active: true, is_admin: false)
             newToken = createNewSessionToken
             UserSessionTokenList.create( user_id: newUser.id, session_token: newToken, session_duration: 1, exp_end:DateTime.now+1)
-            render json: {token: newToken, username: newUser.username, avatar_path: newUser.avatar_path}, status: :ok
+            render json: {token: newToken, username: newUser.username, useremail: new_email, avatar_path: newUser.avatar_path, account_active: true, session_duration: 1}, status: :ok
         end
     end
 
@@ -28,10 +28,15 @@ class UsersController < ApplicationController
         end
 
         user_session_list.update(session_duration: new_session_duration)
-        updated_user = user.update(useremail: params[:useremail], password: params[:password], account_active: params[:account_active], avatar_path: params[:avatar_path])
-        
+         
+        if params[:password] == ""
+            updated_user = user.update(useremail: params[:useremail], account_active: params[:account_active], avatar_path: params[:avatar_path])
+        else
+            updated_user = user.update(useremail: params[:useremail], password: params[:password], account_active: params[:account_active], avatar_path: params[:avatar_path])
+        end
+
         if updated_user
-            render json: {useremail: user.useremail, avatar_path: user.avatar_path}, status: :ok
+            render json: {useremail: params[:useremail], avatar_path: user.avatar_path, account_active: params[:account_active], avatar_path: params[:avatar_path], session_duration: new_session_duration}, status: :ok
         else
             render json: {errors: "unable to update"}, status: :unprocessable_entity
         end

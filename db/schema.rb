@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 2021_10_27_183310) do
 
   create_table "watchlists", force: :cascade do |t|
     t.string "wlname"
+    t.boolean "is_default"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
