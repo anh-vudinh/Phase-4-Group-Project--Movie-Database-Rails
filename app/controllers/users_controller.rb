@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
     def create
         if User.find_by(username: params[:username])
-            render json: {errors: "user_exist", status: 422}, status: :unprocessable_entity
+            render json: {errors: "User Already Exist", status: 422}, status: :unprocessable_entity
         else
             newUser = User.create(username: params[:username], useremail: params[:useremail] ||= nil, avatar_path: nil, password: params[:password], login_status: true, account_active: true, is_admin: false)
             newToken = createNewSessionToken
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
         updated_user = user.update(useremail: params[:useremail], password: params[:password], account_active: params[:account_active], avatar_path: params[:avatar_path])
         
         if updated_user
-            render json: {useremail: params[:useremail], password: params[:password], avatar_path: params[:avatar_path], account_active: params[:accout_active]}, status: :ok
+            render json: {useremail: user.useremail, avatar_path: user.avatar_path}, status: :ok
         else
             render json: {errors: "unable to update"}, status: :unprocessable_entity
         end

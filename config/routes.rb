@@ -30,6 +30,9 @@ Rails.application.routes.draw do
     collection do
       post 'cpWLmovies'
     end
+    collection do
+      post 'cpWLMoviesDelete'
+    end
   end
   
   resources :sessions do

@@ -1,5 +1,5 @@
 class WatchlistsController < ApplicationController
-    skip_before_action :confirm_authentication, only: [:create, :destroy, :retrieveWL, :cpWL, :cpWLmovies]
+    skip_before_action :confirm_authentication, only: [:create, :destroy, :retrieveWL, :cpWL, :cpWLmovies, :cpWLMoviesDelete]
     
     def create
         newWL = Watchlist.create(user_id: params[:user_id], wlname: params[:wlname])
@@ -26,6 +26,13 @@ class WatchlistsController < ApplicationController
     def cpWLmovies
         watch_list_card = Watchlist.find_by(id: params[:watchlist_id]).watchlist_cards
         render json: watch_list_card, status: :ok
+    end
+
+    def cpWLMoviesDelete
+        movie_array = params[:moviesArray]
+        movie_array.each{|wl_card| WatchlistCard.find_by(id: wl_card[:id]).destroy}
+        updated_wl = Watchlist.find_by(id: params[:selectedWL][:id]).watchlist_cards
+        render json: updated_wl, status: :ok
     end
 
     # private 
