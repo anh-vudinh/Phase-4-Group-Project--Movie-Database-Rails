@@ -12,10 +12,15 @@ class WatchlistsController < ApplicationController
     end
 
     def update
-        all_user_watchlist = User.find_by(id: params[:user_id]).watchlists
-        all_user_watchlist.each{|wl| wl.update(is_default: false)}
         watchlist = Watchlist.find_by(id: params[:id])
-        watchlist.update(wlname: params[:wlname], is_default: params[:is_default])
+        if params[:is_default]                                                          #if user wants to change default WL
+            all_user_watchlist = User.find_by(id: params[:user_id]).watchlists
+            all_user_watchlist.each{|wl| wl.update(is_default: false)}
+            watchlist.update(wlname: params[:wlname], is_default: params[:is_default])
+        else
+            watchlist.update(wlname: params[:wlname])                                   #if user sends a false value as is_default(front end is_default is false)
+        end
+
         updated_watchlists = User.find_by(id: params[:user_id]).watchlists
         render json: updated_watchlists, status: :accepted
     end

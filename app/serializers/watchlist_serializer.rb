@@ -1,4 +1,4 @@
 class WatchlistSerializer < ActiveModel::Serializer
-  attributes :id, :wlname
-  has_one :user
+  attributes :id, :wlname, :is_default
+  # has_one :user
 end

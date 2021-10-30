@@ -9,7 +9,7 @@ class ReviewsController < ApplicationController
             render json: [], status: :not_found               
         end
     end 
-   
+
     def create
         filteredComment = filterScriptFromComment(params[:comment])
         user = UserSessionTokenList.all.find_by(session_token: params[:token]).user     #locate user based off token recieved, return hash for id association
